@@ -72,7 +72,7 @@ elif option == 'Product Insights':
 
     # Top revenue product
     st.subheader("Top Revenue Product")
-    top_revenue_product = data.groupby('product_detail')['total_sales'].sum().sort_values(ascending=False).head(1)
+    top_revenue_product = data.groupby('product_detail')['total_sales'].sum()#.sort_values(ascending=False).head(1)
     st.bar_chart(top_revenue_product)
 
     # Top selling qty product
