@@ -18,7 +18,7 @@ def load_data(url):
     return data
 
 # Replace with your actual raw URL
-data_url = 'https://raw.githubusercontent.com/yourusername/yourrepository/branchname/path/to/Coffee%20Shop%20Sales.csv'
+data_url = 'https://raw.githubusercontent.com/datanut93/coffeesales/main/Coffee%20Shop%20Sales.csv'
 data = load_data(data_url)
 
 
