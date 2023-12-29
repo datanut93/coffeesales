@@ -2,26 +2,25 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
-
 from io import StringIO
 
 @st.cache
 def load_data(url):
-    # Fetch the raw CSV data from the GitHub URL
-    response = requests.get(url)
-    response.raise_for_status()  # Raise an error if the fetch failed
-    
-    # Convert the response text into a pandas DataFrame
-    data = pd.read_csv(StringIO(response.text))
-    # Additional data processing can go here
-    return data
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an error for bad HTTP status codes
+        data = pd.read_csv(StringIO(response.text))
+        return data
+    except requests.exceptions.HTTPError as err:
+        st.error(f"HTTP Error: {err}")
+    except requests.exceptions.RequestException as err:
+        st.error(f"Request Exception: {err}")
+    except Exception as err:
+        st.error(f"An unexpected error occurred: {err}")
 
-# Replace with your actual raw URL
-data_url = 'https://raw.githubusercontent.com/datanut93/coffeesales/main/Coffee%20Shop%20Sales.csv'
+# Replace with your actual URL
+data_url = 'https://raw.githubusercontent.com/yourusername/yourrepository/branchname/path/to/Coffee%20Shop%20Sales.csv'
 data = load_data(data_url)
-
-
 
 
 # Load your data
