@@ -72,12 +72,12 @@ elif option == 'Product Insights':
 
     # Top revenue product
     st.subheader("Top Revenue Product")
-    top_revenue_product = data.groupby('product_detail')['total_sales'].sum()#.sort_values(ascending=False).head(1)
+    top_revenue_product = data.groupby('product_category')['total_sales'].sum().sort_values(ascending=True)
     st.bar_chart(top_revenue_product)
 
     # Top selling qty product
     st.subheader("Top Selling Quantity Product")
-    top_qty_product = data.groupby('product_detail')['transaction_qty'].sum().sort_values(ascending=False).head(1)
+    top_qty_product = data.groupby('product_category')['transaction_qty'].sum().sort_values(ascending=True)
     st.bar_chart(top_qty_product)
 
     # Profit per unit of products (assuming profit data is available or can be calculated)
