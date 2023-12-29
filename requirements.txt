@@ -3,3 +3,4 @@ requests
 streamlit
 numpy
 matplotlib
+pandas
