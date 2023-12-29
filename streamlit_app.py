@@ -19,7 +19,7 @@ def load_data(url):
         st.error(f"An unexpected error occurred: {err}")
 
 # Replace with your actual URL
-data_url = 'https://raw.githubusercontent.com/yourusername/yourrepository/branchname/path/to/Coffee%20Shop%20Sales.csv'
+data_url = 'https://raw.githubusercontent.com/datanut93/coffeesales/main/Coffee%20Shop%20Sales.csv'
 data = load_data(data_url)
 
 
