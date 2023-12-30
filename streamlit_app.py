@@ -86,7 +86,7 @@ unique_stores = data['store_location'].unique()
 selected_store = st.selectbox('Filter by store:', ['All'] + list(unique_stores))
 
 # Apply the store filter to data
-if selected_store != 'All':
+    if selected_store != 'All':
     data = data[data['store_location'] == selected_store]
 
     # Visual showing the revenue and sales qty of each store
