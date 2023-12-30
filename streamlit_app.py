@@ -25,6 +25,7 @@ def load_data(url):
 data_url = 'https://raw.githubusercontent.com/datanut93/coffeesales/main/Coffee%20Shop%20Sales.csv'
 data = load_data(data_url)
 
+data['transaction_date'] = pd.to_datetime(data['transaction_date'])
 
 
 
