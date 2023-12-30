@@ -25,6 +25,8 @@ data_url = 'https://raw.githubusercontent.com/datanut93/coffeesales/main/Coffee%
 data = load_data(data_url)
 
 
+
+
 # Load your data
 # @st.cache
 # def load_data():
@@ -35,6 +37,62 @@ data = load_data(data_url)
 #    return data
 
 # data = load_data()
+
+
+def calculate_metrics(data, store=None):
+    # Filter by store if provided
+    if store:
+        data = data[data['store_location'] == store]
+
+    # Define the time window
+    end_date = datetime.today()
+    start_7_days = end_date - timedelta(days=7)
+    start_30_days = end_date - timedelta(days=30)
+
+    # Calculate averages
+    avg_7_days = data[(data['transaction_date'] >= start_7_days) & (data['transaction_date'] <= end_date)].mean()
+    avg_30_days = data[(data['transaction_date'] >= start_30_days) & (data['transaction_date'] <= end_date)].mean()
+
+    return avg_7_days, avg_30_days
+
+# Function to display a single scorecard
+def display_scorecard(title, avg_7_days, avg_30_days):
+    with st.container():
+        st.markdown(f"### {title}")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**Qty**")
+            # Compare 7 days vs. 30 days and format accordingly
+            color_qty = "green" if avg_7_days['transaction_qty'] >= avg_30_days['transaction_qty'] else "red"
+            st.markdown(f"<p style='color:{color_qty};'>{avg_7_days['transaction_qty']:,.2f} (7d) vs {avg_30_days['transaction_qty']:,.2f} (30d)</p>", unsafe_allow_html=True)
+        with col2:
+            st.markdown("**Rev**")
+            # Compare 7 days vs. 30 days and format accordingly
+            color_rev = "green" if avg_7_days['total_sales'] >= avg_30_days['total_sales'] else "red"
+            st.markdown(f"<p style='color:{color_rev};'>{avg_7_days['total_sales']:,.2f} (7d) vs {avg_30_days['total_sales']:,.2f} (30d)</p>", unsafe_allow_html=True)
+
+# Load your data
+#data = load_data()
+
+# Calculate metrics for each category
+all_avg_7_days, all_avg_30_days = calculate_metrics(data)
+lm_avg_7_days, lm_avg_30_days = calculate_metrics(data, "Lower Manhattan")
+astoria_avg_7_days, astoria_avg_30_days = calculate_metrics(data, "Astoria")
+hk_avg_7_days, hk_avg_30_days = calculate_metrics(data, "Hell's Kitchen")
+
+# Display scorecards
+st.title('Store Performance Overview')
+cols = st.columns(4)
+with cols[0]:
+    display_scorecard("All Stores", all_avg_7_days, all_avg_30_days)
+with cols[1]:
+    display_scorecard("Lower Manhattan", lm_avg_7_days, lm_avg_30_days)
+with cols[2]:
+    display_scorecard("Astoria", astoria_avg_7_days, astoria_avg_30_days)
+with cols[3]:
+    display_scorecard("Hell's Kitchen", hk_avg_7_days, hk_avg_30_days)
+
+
 
 # Title and introduction
 st.title('Coffee Shop Sales Dashboard')
@@ -57,6 +115,25 @@ if selected_store != 'All':
 # Sales Analysis Section
 if option == 'Sales Analysis':
     st.header("Sales Analysis")
+
+    # Display scorecards at the top of the Sales Analysis page
+    # Calculate metrics for each category
+    all_avg_7_days, all_avg_30_days = calculate_metrics(data)
+    lm_avg_7_days, lm_avg_30_days = calculate_metrics(data, "Lower Manhattan")
+    astoria_avg_7_days, astoria_avg_30_days = calculate_metrics(data, "Astoria")
+    hk_avg_7_days, hk_avg_30_days = calculate_metrics(data, "Hell's Kitchen")
+
+    # Display scorecards
+    st.title('Store Performance Overview')
+    cols = st.columns(4)
+    with cols[0]:
+        display_scorecard("All Stores", all_avg_7_days, all_avg_30_days)
+    with cols[1]:
+        display_scorecard("Lower Manhattan", lm_avg_7_days, lm_avg_30_days)
+    with cols[2]:
+        display_scorecard("Astoria", astoria_avg_7_days, astoria_avg_30_days)
+    with cols[3]:
+        display_scorecard("Hell's Kitchen", hk_avg_7_days, hk_avg_30_days)
 
     # Trending total sales over time
     st.subheader("Total Sales Over Time")
