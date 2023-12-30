@@ -82,18 +82,6 @@ lm_avg_7_days, lm_avg_30_days = calculate_metrics(data, "Lower Manhattan")
 astoria_avg_7_days, astoria_avg_30_days = calculate_metrics(data, "Astoria")
 hk_avg_7_days, hk_avg_30_days = calculate_metrics(data, "Hell's Kitchen")
 
-# Display scorecards
-st.title('Store Performance Overview')
-cols = st.columns(4)
-with cols[0]:
-    display_scorecard("All Stores", all_avg_7_days, all_avg_30_days)
-with cols[1]:
-    display_scorecard("Lower Manhattan", lm_avg_7_days, lm_avg_30_days)
-with cols[2]:
-    display_scorecard("Astoria", astoria_avg_7_days, astoria_avg_30_days)
-with cols[3]:
-    display_scorecard("Hell's Kitchen", hk_avg_7_days, hk_avg_30_days)
-
 
 
 # Title and introduction
