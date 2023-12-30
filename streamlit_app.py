@@ -44,13 +44,7 @@ st.write("Welcome to the Coffee Shop Sales Dashboard. Use the sidebar to navigat
 st.sidebar.title('Navigation')
 option = st.sidebar.selectbox('Choose a section:', ['Sales Analysis', 'Product Insights', 'Store Performance'])
 
-# Filter by Store (Common to multiple sections)
-unique_stores = data['store_location'].unique()
-selected_store = st.sidebar.selectbox('Filter by store:', ['All'] + list(unique_stores))
 
-# Apply the store filter to data
-if selected_store != 'All':
-    data = data[data['store_location'] == selected_store]
 
 # Sales Analysis Section
 if option == 'Sales Analysis':
@@ -86,6 +80,14 @@ elif option == 'Product Insights':
 # Store Performance Section
 elif option == 'Store Performance':
     st.header("Store Performance")
+
+    # Filter by Store (Common to multiple sections)
+unique_stores = data['store_location'].unique()
+selected_store = st.selectbox('Filter by store:', ['All'] + list(unique_stores))
+
+# Apply the store filter to data
+if selected_store != 'All':
+    data = data[data['store_location'] == selected_store]
 
     # Visual showing the revenue and sales qty of each store
     st.subheader("Revenue and Quantity by Store")
