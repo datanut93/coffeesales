@@ -46,7 +46,7 @@ option = st.sidebar.selectbox('Choose a section:', ['Sales Analysis', 'Product I
 
     # Filter by Store (Common to multiple sections)
 unique_stores = data['store_location'].unique()
-selected_store = st.sidebar('Filter by store:', ['All'] + list(unique_stores))
+selected_store = st.sidebar.selectbox('Filter by store:', ['All'] + list(unique_stores))
 
 # Apply the store filter to data
 if selected_store != 'All':
